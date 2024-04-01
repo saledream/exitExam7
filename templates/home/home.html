@@ -1,0 +1,8 @@
+{% extends 'base.html' %} 
+
+
+{% block content %} 
+       <h1> What is up</h1>
+       <li><a class="nav-link scrollto text-white" href="{% url 'account:login' %}">sign in</a></li>
+       <li><a class="nav-link scrollto text-white" href="{% url 'account:signup' %}">sign up</a></li>
+{% endblock %}

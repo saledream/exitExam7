@@ -1,0 +1,27 @@
+
+{% extends 'partials/partial_base.html' %} 
+{% block crumbs %} 
+   <li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+  role="button"hx-get="{{url}}"  hx-trigger="click" hx-target="#submain"> {% if title %} &rsaquo; {{ title }}{% endif %}</li>
+{% endblock %}
+
+{% block content %} 
+{% if modules is not None %}
+    {% for module in modules %}
+    <div class="card1 col-lg-3 col-12 mx-2 col-md-5 my-3 position-relative" style="width: 18rem;" hx-get="fetch/modules/{{module.id}}/{{course_id}}/" hx-trigger="click" hx-target="#submain">
+        <div class="card-title text-orange font-weight-bold">{{module.name}}</div>   
+        <div class="card-body">
+            <p class="card-text">{{module.overview|safe|truncatewords:15}}</p>
+            <div class="row">
+                <span class="badge my-2 badge-primary badge-pill">{{module.pages.all.count}} page{{module.pages.all.count|pluralize}} </span> 
+                <span class="badge my-2 badge-primary badge-pill"> Updated:{{module.get_updated_date}} </span>
+                <span class="badge badge-primary badge-pill"> by Instructor:{{module.instructor.username}} </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+   <p> There is no module yet </p>
+{% endif %}
+
+{% endblock %} 

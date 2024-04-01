@@ -1,0 +1,16 @@
+
+{% for model in models %} 
+<div class="row" id="models">
+   
+      <div class="card1 col-lg-3 col-12 mx-2 col-md-5 my-3 position-relative" style="width: 18rem;" hx-get="fetch/models/{{model.id}}/" hx-trigger="click" hx-target="#submain">
+         <div class="card-body">
+            <p class="card-text">{{model.title}}</p>
+            <div>
+               <span>{{model.question.all.count}} questions  </span> 
+            </div>
+         </div>
+      </div>
+
+</div>
+{% empty %} 
+{% endfor %}

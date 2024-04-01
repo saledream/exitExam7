@@ -1,0 +1,28 @@
+department head:
+add model 
+add test  
+create course 
+managing instructors
+exam result 
+read module 
+read page 
+read page completion 
+model questions 
+test questions  
+all on thier department 
+
+exit exam committee:
+add department 
+add heads
+all 
+
+instructors:
+add module 
+add page 
+model question 
+test question 
+course 
+department 
+all on thier course as well as department 
+
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load widget_tweaks %} 
+{% load static %} 
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3 style="text-align: center;">A peek into your book shelf!</h3>
+    <section id="user-list">
+        <h1 hx-trigger="click" hx-get="{% url 'fetch' %} "  hx-swap='outerHTML' hx-target="#users">users</h1>
+       <di id="users">
+           {% include 'partials/user_lists.html' %}
+       </di>
+       
+        
+    </section>
+
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <script>
+      document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+      })
+    </script>
+</body>
+</html>

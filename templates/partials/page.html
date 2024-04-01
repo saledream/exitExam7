@@ -1,0 +1,99 @@
+<div class="">
+    <div class="row">
+        <div class="col-lg-6 col-12 col-sm-12 p-2 pb-3" style="width: 18rem;background: linear-gradient(#454d55, #3c4749, #454d55),linear-gradient(to right,#454d55, #3c4749, #454d55);  ;">
+            <h1 class="font-weight-bold"> {{page.title}}</h1>
+        </div>
+        <div class="col-lg-6 col-sm-12 d-flex flex-column align-items-start justify-content-end">
+            <span style="color:orange"> Created by : Instructor, {{page.instructor.username}}</span>
+            <span style="color:orange">Last update : {{page.get_updated_date}} </span>
+        </div>
+    </div>
+   
+</div>
+<div class="scrollable">
+  <p class="card-title"> Notes </p> 
+  <hr class="bg-white">
+  <div class="card-body" id="status">
+           
+      <p class="card-text">{{page.notes|safe}}</p>
+      
+  </div>
+
+  <div x-data="{
+        status: '',
+        hint: '{{page.answerHint}}',
+        inputValue: '', 
+        show_hint: false ,
+        answer: '{{page.completionQuestionAns}}', 
+        show_button: false, 
+        checkbox: false,  
+        
+        toggleHint() {
+            this.show_hint = !this.show_hint
+        },
+
+        checkAnswer() {
+            if(this.inputValue.trim() == this.answer.trim()) {
+                this.show_button = true
+                this.status = 'correct answer'  
+            }
+            else {
+                this.status = 'wrong answer' 
+            }
+        },
+
+        checkInput($event) {
+            this.inputValue = $event.target.value 
+            this.status = '' 
+            console.log(this.inputValue)
+        },
+
+        markAsComplete($event) {
+            
+            this.checkbox = $event.target.checked 
+            
+            this.request() 
+            
+            console.log(this.checkbox) 
+        }, 
+        async request() {
+            url = 'pageCompletion/{{page.id}}/' + this.checkbox + '/' 
+            req = await (await fetch(url)) 
+            console.log(req) 
+        },
+    }" >
+        <div>
+            <p>{{page.completionQuestion}} </p>
+            <div class="d-flex">
+                <div>
+                    <div>
+                        
+                    </div>
+                     <p> <input type="text" placeholder="your answer" x-model="inputValue" /> </p>
+                     <p x-text="status"></p>  
+                     <p><button @click="toggleHint">Hint</button> </p>
+                     <div x-show="show_hint">
+                         <span x-text="hint"></span>
+                     </div>
+                     
+                </div>
+                <div>
+                    <button @click="checkAnswer()">
+                      check answer 
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% if completed %}   
+        <div> 
+            <span><input type="checkbox" style="background: green"checked disabled /> Mark as complete  </span> 
+            <span x-text="checkbox"></span>
+        </div>
+    {% else %}
+        <div x-show="show_button"> 
+            <span><input type="checkbox" @click="markAsComplete(event)" x-model="checkbox"/> Mark as complete  </span> 
+            <span x-text="checkbox"></span>
+        </div>
+     {% endif %} 
+  </div>
+</div>

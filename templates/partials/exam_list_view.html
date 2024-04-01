@@ -1,0 +1,12 @@
+{% for model in models %} 
+   <div class="column" id="models">
+
+   
+        <ul class="column">
+            <li  hx-get="fetch/models/{{model.id}}/" hx-trigger="click" hx-target="#submain">
+                <span> {{model.title}}</span> <span>{{model.question.all.count}} questions </span></li>
+        </ul>
+
+   </div>
+{% empty %} 
+{% endfor %} 

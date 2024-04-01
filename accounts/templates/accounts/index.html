@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load bootstrap4 %} 
+{% load static %} 
+{% load crispy_forms_tags %}
+{% load widget_tweaks %} 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>  {% block title %} {% endblock %}   </title>
+    {% bootstrap_javascript %} 
+    {% bootstrap_messages %} 
+    {% bootstrap_css %} 
+   
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'mycss/registration.css' %}" />    
+</head>
+<body>
+      {% block content %} 
+
+      {% endblock %}
+    
+    
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <script>
+      document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+      })
+    </script>
+</body>
+</html>

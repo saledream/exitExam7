@@ -1,0 +1,65 @@
+{% extends 'partials/partial_base.html' %} 
+
+
+{% block crumbs %} 
+
+     <li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+        role="button"hx-get="fetch/models/"  hx-trigger="click" hx-target="#submain">  &rsaquo; models </li>
+    <li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+    role="button"hx-get="{{url}}"  hx-trigger="click" hx-target="#submain"> {% if title %} &rsaquo; {{ title }}{% endif %}</li>
+{% endblock %}
+
+{% block title %} 
+    Model Exam 
+{% endblock %}
+
+{% block content %}
+    {% if finished %}
+        {% include "partials/examstatusshow.html" %} 
+        
+    {% else %}
+            {% if question is not None %}
+                <div>
+                    <div>
+                        <h1> {{model_name}} </h1>
+                    </div>
+                    <div>  
+                         <span> {{next_id|add:1}}</span> / <span> {{total_q}}</span>
+                        
+                    </div> 
+                    <div class="questions" x-data="{
+
+                        answer: '',
+                        async request() {
+                            url = 'take/exam/model/answer/{{model_id}}/{{next_id}}/' + this.answer + '/' 
+                            req = await (await fetch(url)) 
+                            console.log(req) 
+                        },
+                    }">
+                            <div class="card-title d-flex align-items-center">
+                                <div>
+                                    <span class="badge rounded-pill bg-success">{{next_id|add:1}}</span>
+                                </div>
+                                <div class="flex-grow-1 flex-shrink-1 mx-2 text-wrap">
+                                    {{question.question|safe}} 
+                                </div>
+                            </div>
+                            <div class="card-body">
+                               <p  class="card-text" >  <input type="radio" @change="request" value="{{question.optionA_slug}}" x-model="answer" name="choice">{{question.optionA}} </p>
+                               <p  class="card-text" >  <input class="card-text" type="radio" @change="request" value="{{question.optionB_slug}}" x-model="answer"  name="choice">{{question.optionB}}</p>
+                               <p  class="card-text" > <input class="card-text" type="radio" @change="request" value="{{question.optionC_slug}}" x-model="answer"  name="choice">{{question.optionC}}</p>
+                               <p  class="card-text" > <input class="card-text" type="radio" @change="request" value="{{question.optionD_slug}}" x-model="answer" name="choice">{{question.optionD}} </p>
+                            </div>
+                            <p x-text="answer"></p>
+                            <button class="btn btn-primary" hx-get="take/exam/model/next_question/{{model_id}}/{{next_id}}/" hx-target="#submain"> Next </button>
+                    </div>   
+                </div>
+
+
+            {% else %} 
+            <p> There is no question any more </p>
+            {% endif %}
+
+    {% endif %} 
+
+    {% endblock %} 

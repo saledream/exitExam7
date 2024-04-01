@@ -1,0 +1,7 @@
+<div id="lists">
+    {% for user in users %} 
+       <div>
+           {{ forloop.counter }}{{user.username}}
+       </div>
+    {% endfor %}
+</div>

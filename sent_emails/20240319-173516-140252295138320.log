@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Django - Registration/Login App Password Reset
+From: webmaster@localhost
+To: saledream8@gmail.com
+Date: Tue, 19 Mar 2024 17:35:16 -0000
+Message-ID: <171086971661.5366.3902293006640791513@kali>
+
+
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/accounts/reset/MTA/c45cus-187e2e7cb1b79263ecadf3b10c7b8585/
+
+Your username, in case you’ve forgotten: saledream8@gmail.com
+
+Thanks for using our site!
+
+The localhost:8000 team
+
+
+
+-------------------------------------------------------------------------------

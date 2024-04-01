@@ -1,0 +1,67 @@
+{% extends 'partials/partial_base.html' %} 
+
+{% block crumbs %} 
+<li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+role="button" hx-get="/students/fetch/tests/"  hx-trigger="click" hx-target="#submain">  &rsaquo; tests  </li>
+{% endblock %}
+
+{% block title %} 
+  tests of all course 
+{% endblock %}
+
+{% block content %}
+<div class="column">
+   <div>
+      <hr style="background:white"> 
+      <h1> Tests  </h1>
+      <div>
+         <select x-model="course">
+            <option hx-get="fetch/tests/all_all/"  hx-target="#tests"> all </option>
+            {% for csr in courses %}
+               <option  hx-get="fetch/tests/{{csr.slug}}/" value="{{csr.slug}}" hx-target="#tests">{{csr.name}}</option>
+            {% endfor %}
+
+            </select>
+      </div>
+   </div>
+   
+   <div class="row">
+      <div class="row" id="tests">
+            {% for test,name, q in tests %}
+              
+               <div class="card1 col-lg-3 col-12 mx-2 col-md-5 my-3 position-relative" style="width: 18rem;" hx-get="take/exam/test/{{test.id}}/" hx-trigger="click" hx-target="#submain">
+                  <div class="card-body">
+                     <p class="card-text text-orange font-weight-bold">{{test.title}}  <span class="badge fs-6 badge-primary badge-pill">  {{name}} </span>  </p> 
+                     
+                     <div>
+                        <span>{{test.question.all.count|default:0}} questions </span> 
+                        <div>
+
+                           {% for key,value in q.items %} 
+                               {% if key == "hard" %} 
+                               <span class="badge bg-danger badge-pill">  {{value}} hard{{value|pluralize}} </span> 
+
+                               {% elif key == 'medium' %} 
+                                  <span class="badge bg-orange badge-pill">  {{value}} intermediate{{value|pluralize}} </span>
+
+                               {% elif key == 'easy' %} 
+                                 <span class="badge badge-primary badge-pill">  {{value}} easy{{value|pluralize}} </span> 
+                               {% endif %}
+                               
+                           {% endfor %}
+                        
+                     
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         {% empty %} 
+      
+         {% endfor %} 
+      </div>
+      
+   </div>
+   
+</div>
+
+{% endblock %}

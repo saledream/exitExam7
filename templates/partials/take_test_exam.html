@@ -1,0 +1,59 @@
+{% extends 'partials/partial_base.html' %} 
+
+
+{% block crumbs %} 
+
+     <li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+        role="button"hx-get="fetch/tests/"  hx-trigger="click" hx-target="#submain">  &rsaquo; tests </li>
+    <li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+    role="button"hx-get="{{url}}"  hx-trigger="click" hx-target="#submain"> {% if title %} &rsaquo; {{ title }}{% endif %}</li>
+{% endblock %}
+
+{% block title %} 
+    Model Exam 
+{% endblock %}
+
+{% block content %}
+{% if finished %}
+    {% include "partials/examstatusshow.html" %} 
+    
+{% else %}
+        {% if question is not None %}
+            <div>
+                <div>
+                    <h1> {{title}}</h1> 
+                </div>
+                <div>
+                    <span> {{next_id|add:1}}</span> / <span> {{total_q}}</span>
+
+                </div> 
+                <div class="questions" x-data="{
+
+                    answer: '',
+                    async request() {
+                        url = 'take/tests/{{next_id}}/' + this.answer + '/' 
+                        req = await (await fetch(url)) 
+                        console.log(req) 
+                    },
+                }">
+                        <div class="card-title">
+                            {{question.question|safe}} 
+                        </div>
+                        <div class="card-body">
+                            <input class="card-text" type="radio" @change="request" value="{{question.optionA_slug}}" x-model="answer" name="choice">{{question.optionA}} <br/>
+                            <input class="card-text" type="radio" @change="request" value="{{question.optionB_slug}}" x-model="answer"  name="choice">{{question.optionB}} <br/>
+                            <input class="card-text" type="radio" @change="request" value="{{question.optionC_slug}}" x-model="answer"  name="choice">{{question.optionC}} <br/>
+                            <input class="card-text" type="radio" @change="request" value="{{question.optionD_slug}}" x-model="answer" name="choice">{{question.optionD}} <br/>
+                        </div>
+                        <p x-text="answer"></p>
+                        <button hx-get="take/exam/model/next_question/{{model_id}}/{{next_id}}/" hx-target="#submain"> Next </button>
+                </div>   
+            </div>
+
+
+        {% else %} 
+        <p> There is no test prepared yet </p>
+        {% endif %}
+
+{% endif %} 
+{% endblock %}

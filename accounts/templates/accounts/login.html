@@ -1,0 +1,47 @@
+
+{% extends 'accounts/index.html' %}
+{% load widget_tweaks %}
+{% block content %} 
+<h1 class="text-center mt-5 text-primary">  <i class="fa fa-user-graduate fa-3x mx-1"></i> Login </h1>
+   <div class="container mt-5">
+    
+    <form method="post" class="">
+        {% csrf_token %}
+        <div class="row  d-flex flex-column justify-content-center align-items-center mx-auto py-5 my-auto shadow-lg p-3 mb-5 bg-tertiary rounded">
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    {% render_field form.email class="form-control" placeholder="email" %}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {% render_field form.password class="form-control" placeholder=form.password.label %}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                {% for error in field.errors %} 
+                   <span class="help-block">{{error}}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                   login 
+                </button>
+              </div>
+             <a class="mx-2" href="{% url 'password_reset' %}"> Forgot password</a> 
+              <a href="{% url 'account:signup' %}"> don't have account?</a> 
+            
+        </div>
+       
+    </form>
+  
+   </div>
+  
+{% endblock %}

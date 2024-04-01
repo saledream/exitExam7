@@ -1,0 +1,40 @@
+{% extends 'partials/partial_base.html' %}
+
+{% block crumbs %} 
+   <li class="breadcrumb-item active" onMouseOver="this.style.textDecoration='underline';this.style.color='#00F'" onMouseOut="this.style.textDecoration='none';this.style.color='#FFF'"
+  role="button"hx-get="fetch/models/"  hx-trigger="click" hx-target="#submain">  &rsaquo; models </li>
+{% endblock %}
+
+{% block title %} 
+    model exams   
+{% endblock %} 
+
+
+{% block content %}   
+    <div class="row">
+      {% for model,q in models %} 
+        <div class="card1 col-lg-3 col-12 mx-2 col-md-5 my-3 position-relative" style="width: 18rem;" hx-get="take/exam/model/{{model.id}}/" hx-trigger="click" hx-target="#submain">
+            <div class="card-body">
+              <p class="card-text">{{model.title}}</p>
+              <div>
+                {% for key,value in q.items %} 
+                {% if key == "hard" %} 
+                <span class="badge bg-danger badge-pill">  {{value}} hard{{value|pluralize}} </span> 
+
+                {% elif key == 'medium' %} 
+                   <span class="badge bg-orange badge-pill">  {{value}} intermediate{{value|pluralize}} </span>
+
+                {% elif key == 'easy' %} 
+                  <span class="badge badge-primary badge-pill">  {{value}} easy{{value|pluralize}} </span> 
+                {% endif %}
+                
+            {% endfor %}
+              </div>
+            </div>
+        </div>
+      {% empty %} 
+        
+        <p> No model exam yet </p>
+      {% endfor %}
+    </div>
+{% endblock %}

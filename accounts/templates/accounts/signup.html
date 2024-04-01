@@ -1,0 +1,55 @@
+{% extends 'accounts/index.html' %}
+{% load widget_tweaks %} 
+{% load static %}
+ {% block title %} 
+    signup 
+ {% endblock %}
+
+{% block content %} 
+   <h1 class="mx-2 p-2 container-fluid text-center fw-bold text-primary"><i class="fa fa-user-graduate fa-3x mx-1"></i> Sign up Form </h1>
+   <div class="container">
+        
+        <form method="post">
+          <div class="row  d-flex flex-column   mx-auto py-5 my-auto shadow-lg p-3 mb-5 bg-tertiary rounded">
+            {% csrf_token %} 
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label text-primary">Email address</label>
+                {% render_field form.email class="form-control" placeholder="saledream8@gmail.com" hx-post="check_email/" hx-trigger='keyup' hx-target='#email' %} 
+                <div id="email"></div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label text-primary">username</label>
+                {% render_field form.username class="form-control" placeholder="sale" hx-post="check_username/" hx-trigger='keyup' hx-target='#username' %} 
+                <div id="username"></div> 
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label text-primary">Password</label>
+                {% render_field form.password1 class="form-control" hx-post="check_password/" hx-trigger='keyup' hx-target='#password' %} 
+                <div id="password"></div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label text-primary">Confirm password</label>
+                {% render_field form.password2 class="form-control"  %} 
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label text-primary">Department</label>
+                {% render_field form.department class="form-control" placeholder="computer science" %} 
+              </div>
+            <div class="d-flex justify-content-around align-items-baseline">
+                <button type="submit" class="btn btn-primary mt-3">sign up </button>
+                <p><a href="{% url 'login' %}">sign in</a> </p>
+            </div>
+          </div>
+
+        </form>
+       
+       
+   </div>
+   <script src="{% static 'js/htmx.min.js' %}" defer></script>
+   <script>
+     document.body.addEventListener('htmx:configRequest', (event) => {
+       event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+     })
+   </script>
+  
+{% endblock %}
